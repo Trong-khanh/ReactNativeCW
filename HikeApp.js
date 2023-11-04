@@ -17,7 +17,7 @@ const HikeApp = ({ navigation }) => {
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
-    setShow(Platform.OS === 'ios');
+    setShow(Platform.OS === "ios");
     setDate(currentDate);
   };
 
@@ -28,7 +28,6 @@ const HikeApp = ({ navigation }) => {
   // View component
   return (
     <View style={styles.container}>
-
       <View style={styles.search}>
         <TextInput
           placeholder="Search..."
@@ -112,15 +111,25 @@ const HikeApp = ({ navigation }) => {
       </View>
 
       <View style={styles.Button}>
-          <View style={styles.ButtonSM}>
-            <Button 
-              title="Submit" 
-              onPress={() => {
-                navigation.navigate('HikeDetail', { detail: { name, date, 
-                location, parkingAvailable, length, difficulty, description } });
-              }} 
-            />
-          </View>
+        <View style={styles.ButtonSM}>
+          <Button
+            title="Submit"
+            onPress={() => {
+              const dateString = date.toISOString();
+              navigation.navigate("HikeDetail", {
+                detail: {
+                  name,
+                  date: dateString,
+                  location,
+                  parkingAvailable,
+                  length,
+                  difficulty,
+                  description,
+                },
+              });
+            }}
+          />
+        </View>
         <View style={styles.ButtonDT}>
           <Button
             title="Detail"
