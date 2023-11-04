@@ -1,7 +1,8 @@
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import HikeApp from './HikeApp';
-import HikeDetail from './HikeDetail';
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import HikeApp from "./HikeApp";
+import EditHikeScreen from "./EditHikeScreen";
+import HikeDetail from "./HikeDetail";
 
 const Stack = createStackNavigator();
 
@@ -11,6 +12,7 @@ const App = () => {
       <Stack.Navigator initialRouteName="HikeApp">
         <Stack.Screen name="HikeApp" component={HikeApp} />
         <Stack.Screen name="HikeDetail" component={HikeDetail} />
+        <Stack.Screen name="EditHikeScreen" component={EditHikeScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
