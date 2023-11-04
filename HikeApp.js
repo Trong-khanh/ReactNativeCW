@@ -1,14 +1,13 @@
 import React, { useState } from "react";
-import { Button, TextInput, View, Text, StyleSheet } from "react-native";
+import { Button, TextInput, View, Text, Platform } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
 import { styles } from "./styles/HikeAddStyle";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 const HikeApp = ({ navigation }) => {
-  //Thêm { navigation } vào props
   const [name, setName] = useState("");
-  const [year, setYear] = useState("");
-  const [month, setMonth] = useState("");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(new Date());
+  const [show, setShow] = useState(false);
   const [location, setLocation] = useState("");
   const [parkingAvailable, setParkingAvailable] = useState("yes");
   const [length, setLength] = useState("");
@@ -16,11 +15,16 @@ const HikeApp = ({ navigation }) => {
   const [description, setDescription] = useState("");
   const [search, setSearch] = useState("");
 
-  const handleDateChange = (type, value) => {
-    if (type === "year") setYear(value);
-    if (type === "month") setMonth(value);
-    if (type === "date") setDate(value);
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS === 'ios');
+    setDate(currentDate);
   };
+
+  const showDatepicker = () => {
+    setShow(true);
+  };
+
   // View component
   return (
     <View style={styles.container}>
@@ -54,25 +58,18 @@ const HikeApp = ({ navigation }) => {
 
         <View style={styles.children}>
           <Text style={styles.TextInf}>Date</Text>
-
-          <TextInput
-            placeholder="YYYY"
-            value={year}
-            onChangeText={(value) => handleDateChange("year", value)}
-          />
-
-          <TextInput
-            placeholder="MM"
-            value={month}
-            onChangeText={(value) => handleDateChange("month", value)}
-          />
-
-          <TextInput
-            placeholder="DD"
-            value={date}
-            onChangeText={(value) => handleDateChange("date", value)}
-          />
+          <Button onPress={showDatepicker} title="Select date" />
         </View>
+        {show && (
+          <DateTimePicker
+            testID="dateTimePicker"
+            value={date}
+            mode="date"
+            is24Hour={true}
+            display="default"
+            onChange={onChange}
+          />
+        )}
 
         <View style={styles.children}>
           <Text style={styles.TextInf}>Parking Avaialble</Text>
@@ -115,15 +112,15 @@ const HikeApp = ({ navigation }) => {
       </View>
 
       <View style={styles.Button}>
-        <View style={styles.ButtonSM}>
-          <Button 
-            title="Submit" 
-            onPress={() => {
-              navigation.navigate('HikeDetail', { detail: { name, year, month, date, 
-              location, parkingAvailable, length, difficulty, description } });
-            }} 
-          />
-        </View>
+          <View style={styles.ButtonSM}>
+            <Button 
+              title="Submit" 
+              onPress={() => {
+                navigation.navigate('HikeDetail', { detail: { name, date, 
+                location, parkingAvailable, length, difficulty, description } });
+              }} 
+            />
+          </View>
         <View style={styles.ButtonDT}>
           <Button
             title="Detail"
