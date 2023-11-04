@@ -20,6 +20,15 @@ const styles = StyleSheet.create({
     padding: 8,
     width: 200,
   },
-});
+  EditDelete: {
+    flexDirection: 'row',  
+  },
+  EditHike:{
+    margin: 5
+  },
+  DeleteHike:{
+    margin: 5
+  }
 
+});
 export { styles };
