@@ -3,6 +3,14 @@ import { View, Text, TextInput, Button } from "react-native";
 import { styles } from "./styles/HikeDetailStyle";
 
 const HikeDetail = ({ route }) => {
+  if (!route.params || !route.params.detail) {
+    return (
+      <View style={styles.container}>
+        <Text>Không có thông tin chi tiết</Text>
+      </View>
+    );
+  }
+
   const { detail } = route.params;
   const date = new Date(detail.date);
   const [search, setSearch] = useState("");
@@ -32,7 +40,7 @@ const HikeDetail = ({ route }) => {
 
       <View style={styles.information}>
         <View style={styles.children}>
-          <Text>Name: {detail.children}</Text>
+          <Text>Name: {detail.name}</Text>
         </View>
         <View style={styles.children}>
           <Text>Date: {date.toDateString()}</Text>

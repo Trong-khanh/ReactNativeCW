@@ -1,31 +1,83 @@
 import React, { useState } from "react";
-import { Button, TextInput, View, Text, Platform } from "react-native";
+import { Button, TextInput, View, Text, Platform,TouchableOpacity,Alert } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
 import { styles } from "./styles/HikeAddStyle";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import Database from "./Database"; 
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+
 
 const HikeApp = ({ navigation }) => {
   const [name, setName] = useState("");
-  const [date, setDate] = useState(new Date());
+  const [dateTime, setDateTime] = useState(new Date()); // comment nhu n
   const [show, setShow] = useState(false);
+
   const [location, setLocation] = useState("");
   const [parkingAvailable, setParkingAvailable] = useState("yes");
+  const [datePickerVisible, setDatePickerVisible] = useState(false);
   const [length, setLength] = useState("");
   const [difficulty, setDifficulty] = useState("");
   const [description, setDescription] = useState("");
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState("");;
 
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShow(Platform.OS === "ios");
-    setDate(currentDate);
+  //
+  const handleAddHike = async () => {
+    const originalDate = new Date(dateTime);
+    console.log(originalDate)
+    const year = originalDate.getFullYear();
+    const month = String(originalDate.getMonth() + 1).padStart(2, "0");
+    const day = String(originalDate.getDate()).padStart(2, "0");
+    const formattedDate = `${year}-${month}-${day}`;
+
+    if (!name || !location ||!formattedDate ||!parkingAvailable ||!length ||!difficulty || !description) {
+      Alert.alert("Error", "All required fields must be filled ");
+      return;
+    }
+    try {
+      await Database.initDatabase(); 
+
+      const insertResult = await Database.addHike(
+        name,
+        location,
+        formattedDate,
+        parkingAvailable,
+        length,
+        difficulty,
+        description
+      );
+
+      console.log(insertResult)
+      console.log(name)
+      console.log(location)
+      console.log(formattedDate)
+      console.log(parkingAvailable)
+      console.log(length)
+      console.log(difficulty)
+      console.log(description)
+      
+      
+      if (insertResult) {
+        Alert.alert("Success", "Your Hike added");
+      } else {
+        Alert.alert("Error", "Failed to add Hike");
+      }
+    } catch (error) {
+      console.error("Error adding Hike:", error);
+      Alert.alert("Error", "Failed to add Hike");
+    }
   };
 
-  const showDatepicker = () => {
-    setShow(true);
+  const showDatePicker = () => {
+    setDatePickerVisible(true);
+  };
+  const hideDatePicker = () => {
+    setDatePickerVisible(false);
+  };
+  const handleConfirm = (date) => {
+    setDateTime(date);
+    hideDatePicker();
   };
 
-  // View component
   return (
     <View style={styles.container}>
       <View style={styles.search}>
@@ -55,23 +107,23 @@ const HikeApp = ({ navigation }) => {
           />
         </View>
 
-        <View style={styles.children}>
-          <Text style={styles.TextInf}>Date</Text>
-          <Button onPress={showDatepicker} title="Select date" />
-        </View>
-        {show && (
-          <DateTimePicker
-            testID="dateTimePicker"
-            value={date}
-            mode="date"
-            is24Hour={true}
-            display="default"
-            onChange={onChange}
-          />
-        )}
+        <Text style={styles.text}>Date of the hike</Text>
+        <Text style={{ fontSize: 24, fontWeight: "bold", marginBottom: 2 }}>
+          {dateTime
+            ? new Date(dateTime).toLocaleDateString()
+            : "No date selected"}
+        </Text>
+        <Button title="Select a date" onPress={showDatePicker} />
+        <DateTimePickerModal
+          date={dateTime}
+          isVisible={datePickerVisible}
+          mode="date"
+          onConfirm={handleConfirm}
+          onCancel={hideDatePicker}
+        />
 
         <View style={styles.children}>
-          <Text style={styles.TextInf}>Parking Avaialble</Text>
+          <Text style={styles.TextInf}>Parking Available</Text>
           <RNPickerSelect
             onValueChange={(value) => setParkingAvailable(value)}
             items={[
@@ -111,30 +163,15 @@ const HikeApp = ({ navigation }) => {
       </View>
 
       <View style={styles.Button}>
-        <View style={styles.ButtonSM}>
-          <Button
-            title="Submit"
-            onPress={() => {
-              const dateString = date.toISOString();
-              navigation.navigate("HikeDetail", {
-                detail: {
-                  name,
-                  date: dateString,
-                  location,
-                  parkingAvailable,
-                  length,
-                  difficulty,
-                  description,
-                },
-              });
-            }}
-          />
-        </View>
+        {}
+        <TouchableOpacity style={styles.button} onPress={handleAddHike}>
+                <Text style={styles.buttonText}>Add</Text>
+            </TouchableOpacity>
         <View style={styles.ButtonDT}>
           <Button
             title="Detail"
             onPress={() => {
-              /* Detail function here */
+              navigation.navigate("HikeDetail");
             }}
           />
         </View>
