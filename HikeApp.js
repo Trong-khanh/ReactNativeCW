@@ -186,18 +186,23 @@ const HikeApp = ({ navigation }) => {
         </View>
 
         <View style={styles.Button}>
-          {}
-          <TouchableOpacity style={styles.button} onPress={handleAddHike}>
-            <Text style={styles.buttonText}>Add</Text>
-          </TouchableOpacity>
-          <View style={styles.ButtonDT}>
-            <Button
+  
+<View style={styles.add}><Button  
+          style={styles.buttonText} 
+          onPress={handleAddHike} 
+          title="Add"/>
+          </View>
+<View><Button
               title="Detail"
               onPress={() => {
                 navigation.navigate("HikeDetail");
-              }}
-            />
-          </View>
+              }}/></View>
+          
+
+          
+          
+            
+          
         </View>
       </View>
     </KeyboardAvoidingView>

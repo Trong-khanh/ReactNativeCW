@@ -24,20 +24,22 @@ export const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 17,
   },
-  ButtonSM: {
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 40,
+  buttonText: {
+marginRight: 50,
+
   },
+
+
   ButtonDT: {
     alignItems: "center",
     justifyContent: "center",
     marginLeft: 40,
   },
   Button: {
-    marginTop: 10,
+    marginTop: 20,
     flexDirection: "row",
-    justifyContent: "space-between",
-    paddingHorizontal: 30,
+  },
+  add:{
+    marginRight:200,
   },
 });

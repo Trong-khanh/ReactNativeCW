@@ -99,6 +99,11 @@ const HikeDetail = ({ navigation }) => {
         <Text style={styles.hikeText}>Name: {item.hikeName}</Text>
         <Text style={styles.hikeText}>Date: {date}</Text>
         <Text style={styles.hikeText}>Location: {item.location}</Text>
+        <Text style={styles.hikeText}>Parking Available: {item.parkingAvailable}</Text>
+        <Text style={styles.hikeText}>Length: {item.length}</Text>
+        <Text style={styles.hikeText}>Difficult: {item.difficulty}</Text>
+        <Text style={styles.hikeText}>Description: {item.description}</Text>
+        
         <View style={styles.buttonContainer}>
           <Button
             title="Delete"

@@ -10,8 +10,8 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="HikeApp">
-        <Stack.Screen name="HikeApp" component={HikeApp} />
-        <Stack.Screen name="HikeDetail" component={HikeDetail} />
+        <Stack.Screen name="Hike App" component={HikeApp} />
+        <Stack.Screen name="HikeDetail" options={{title: 'Hike Detail'}} component={HikeDetail} />
         <Stack.Screen name="EditHikeScreen" component={EditHikeScreen} />
       </Stack.Navigator>
     </NavigationContainer>
