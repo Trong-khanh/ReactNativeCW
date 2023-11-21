@@ -11,8 +11,16 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="HikeApp">
         <Stack.Screen name="Hike App" component={HikeApp} />
-        <Stack.Screen name="HikeDetail" options={{title: 'Hike Detail'}} component={HikeDetail} />
-        <Stack.Screen name="EditHikeScreen" component={EditHikeScreen} />
+        <Stack.Screen
+          name="HikeDetail"
+          options={{ title: "Hike Detail" }}
+          component={HikeDetail}
+        />
+        <Stack.Screen name="Edit Hike Screen" component={EditHikeScreen} />
+        <Stack.Screen name = "EditHikeScreen" 
+        options={{title: "Edit Hike "}}
+        component={EditHikeScreen}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

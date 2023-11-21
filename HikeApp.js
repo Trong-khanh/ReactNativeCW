@@ -51,8 +51,7 @@ const HikeApp = ({ navigation }) => {
       !formattedDate ||
       !parkingAvailable ||
       !length ||
-      !difficulty ||
-      !description
+      !difficulty 
     ) {
       Alert.alert("Error", "All required fields must be filled ");
       return;
